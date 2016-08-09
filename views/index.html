@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+   <meta charset="utf-8">
+   <title>Home</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/bootstrap/3.3.7/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+    var counter=1;
+function mySelect()
+{
+  if(counter==1)
+  {
+    function addAllColumnHeaders(myList) {
+
+        var columnSet = [];
+
+        var headerTr$ = $('<tr/>');
+
+
+
+        for (var i = 0; i < myList.length; i++) {
+
+            var rowHash = myList[i];
+
+            for (var key in rowHash) {
+            if ($.inArray(key, columnSet) == -1) {
+
+                    columnSet.push(key);
+
+                    headerTr$.append($('<th scope="row"/>').html(key));
+
+                }
+            }
+        }
+        $("#myTable").append(headerTr$);
+
+return columnSet;
+
+    }
+    $.getJSON("http://localhost:3000/api/Student", function (data) {
+
+        var columns = addAllColumnHeaders(data);
+
+
+        for (var i = 0; i < data.length; i++) {
+
+            var row$ = $('<tr/>');
+
+            for (var colIndex = 1; colIndex < columns.length; colIndex++) {
+
+                var cellValue = data[i][columns[colIndex]];
+
+
+
+                if (cellValue == null) { cellValue = ""; }
+
+
+
+                row$.append($('<td/>').html(cellValue));
+
+            }
+
+            $("#myTable").append(row$);
+
+        }
+
+    });
+}
+counter++;
+}
+    </script>
+    <script>
+    function get_action(form) { // inside script tags
+      var temp=document.getElementById('rid');
+      var id=temp.value;
+      loc="http://localhost:3000/api/Student/"+id;
+      form.action=loc;
+ }
+ function get_action1(form) { // inside script tags
+   var temp=document.getElementById('id');
+   var id=temp.value;
+   var temp1=document.getElementById('name');
+   var name=temp1.value;
+   var temp2=document.getElementById('course');
+   var course=temp2.value;
+   var temp3=document.getElementById('address');
+   var address=temp3.value;
+   var temp4=document.getElementById('marks');
+   var marks=temp4.value;
+   loc="http://localhost:3000/api/Student/"+id+"/"+name+"/"+course+"/"+address+"/"+marks;
+   form.action=loc;
+}
+function get_action2(form) { // inside script tags
+  var temp=document.getElementById('id1');
+  var id=temp.value;
+  var temp1=document.getElementById('name1');
+  var name=temp1.value;
+  var temp2=document.getElementById('course1');
+  var course=temp2.value;
+  var temp3=document.getElementById('address1');
+  var address=temp3.value;
+  var temp4=document.getElementById('marks1');
+  var marks=temp4.value;
+  loc="http://localhost:3000/api/Student/"+id+"/"+name+"/"+course+"/"+address+"/"+marks+"/1";
+  form.action=loc;
+}
+    </script>
+ </head>
+ <body>
+   <div class="container-fluid">
+   	<div class="row">
+   		<div class="col-md-12">
+   			<div class="jumbotron">
+   				<h2>
+   					Hello, world!
+   				</h2>
+   				<p>
+   					Create Read Update Delete application
+   				</p>
+   				<p>
+   					<a class="btn btn-primary btn-large" href="#">Learn more</a>
+   				</p>
+   			</div>
+   			<div class="row">
+   				<div class="col-md-3">
+   						<div class="form-group">
+  <form action="/api/Delete" method="post">
+   							<label for="del">
+   								Registration ID
+   							</label>
+   							<input type="text" class="form-control" name="del" id="del" /><br/><hr/>
+                <center>
+   					<input type="submit" id="deleteButton"  class="btn btn-success" value="Delete Data"/>
+          </center>
+   					</form>
+   				</div>
+      </div>
+   				<div class="col-md-3">
+            <center>
+            <input type="button" id="uploadButton" class="btn btn-success" value="Fetch Whole Data" onClick="mySelect()"/>
+          </center>
+              <hr />
+              <table id="myTable" class="table table-responsive table-striped table-bordered table-inverse">
+                </table>
+                <hr/>
+                <center>
+                  <form action="/api/SearchId" method="post">
+                    <input type="text" name="data" id="data"/>
+                <input type="submit" id="upload1Button" class="btn btn-success" value="Fetch Selective Data"/>
+              </form>
+              </center>
+            </div>
+   				<div class="col-md-3">
+   					<form role="form" action= "api/Insert" method="post">
+   						<div class="form-group">
+
+   							<label for="id">
+   								Registration ID
+   							</label>
+   							<input type="text" class="form-control" id="id" name="id"/>
+   						</div>
+   						<div class="form-group">
+
+   							<label for="name">
+   								Name
+   							</label>
+   							<input type="text" class="form-control" id="name" name="name"/>
+   						</div>
+              <div class="form-group">
+
+                <label for="course">
+                  Course
+                </label>
+                <input type="text" class="form-control" id="course" name="course" />
+              </div>
+              <div class="form-group">
+
+                <label for="address">
+                  Address
+                </label>
+                <input type="text" class="form-control" id="address" name="address"/>
+              </div>
+              <div class="form-group">
+
+                <label for="marks">
+                  Marks
+                </label>
+                <input type="text" class="form-control" id="marks" name="marks"/>
+              </div>
+<center>
+   						<button type="submit" class="btn btn-success">
+   							Insert Data
+   						</button>
+            </center>
+   					</form>
+   				</div>
+   				<div class="col-md-3">
+            <form role="form" action= "/api/Update" method="post">
+              <div class="form-group">
+
+                <label for="id1">
+                  Registration ID
+                </label>
+                <input type="text" class="form-control" id="id1" name="id1" />
+              </div>
+              <hr/>
+              <div class="form-group">
+                <label for="name1">
+                  Name
+                </label>
+                <input type="text" class="form-control" id="name1" name="name1"/>
+              </div>
+              <div class="form-group">
+
+                <label for="course1">
+                  Course
+                </label>
+                <input type="text" class="form-control" id="course1" name="course1"/>
+              </div>
+              <div class="form-group">
+
+                <label for="address1">
+                  Address
+                </label>
+                <input type="text" class="form-control" id="address1" name="address1"/>
+              </div>
+              <div class="form-group">
+
+                <label for="marks1">
+                  Marks
+                </label>
+                <input type="text" class="form-control" id="marks1" name="marks1"/>
+              </div>
+  <center>
+              <button type="submit" class="btn btn-success">
+                Update Data
+              </button>
+            </center>
+            </form>
+   				</div>
+   			</div>
+   		</div>
+   	</div>
+   </div>
+ </body>
+</html>
